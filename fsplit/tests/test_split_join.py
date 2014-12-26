@@ -52,3 +52,7 @@ class Testsplitjoin(unittest.TestCase):
     def test_join_dir_does_not_exist(self):
         dirname = os.path.join(self.dire, 'try')
         self.assertRaises(OSError, main.join, dirname)
+
+    def test_join_invalid_dir(self):
+        dirname = os.path.join(self.dire, 'try')
+        self.assertRaises(OSError, main.join, dirname)
