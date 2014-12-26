@@ -55,84 +55,55 @@ def rdir(dirname, dire=pDir()):
     shutil.rmtree(path)
     return path
 
-def fwrite(inputf, outputf, chunk_size=None):
+def fwrite(handler, fName, chunk_size=None, MODE='w'):
     """
     Writes in a file
     by reading from another file
     """
     if chunk_size:
-        chunk = inputf.read(chunk_size)
+        chunk = handler.read(chunk_size)
     else:
-        chunk = inputf.read()
+        chunk = handler.read()
     if chunk:
-        outputf.write(chunk)
+        with open(fName, MODE) as f:
+            f.write(chunk)
 
-def split(fName, num=2, dire=None):
+def split(fName, num=2):
     """
     Splits a file to various numbers
     """
     if not fileExists(fName):
         raise OSError('file %s does not exists' %(fName))
-    base = os.path.basename(fName)
+    dire, base = os.path.dirname(fName), os.path.basename(fName)
 
-    if not dire:
-        dire = os.path.dirname(fName)
     dirname = base + '.fsplit'
     location = cdir(dirname, dire)
 
     size = os.path.getsize(fName)
     chunk_size = size / num
-    inputf = open(fName)
+    handler = open(fName)
     for cou in range(num):
         filename = str(cou + 1) + '.split'
         path = getpath(location, filename)
-        with open(path, 'w') as outputf:
-            fwrite(inputf, outputf, chunk_size)
+        fwrite(handler, path, chunk_size)
 
+    # test this portion after making join
     filename = str(num) + '.split'
     path = getpath(location, filename)
-    with open(path, 'a') as outputf:
-        left = size - (chunk_size * num)
-        print left
-        fwrite(inputf, outputf, left)
+    fwrite(handler, path, chunk_size, 'a') # make sure nothing is left
 
-    inputf.close()
-
-def olistdir(dire=pDir(), ext='.split'):
+def olistdir(dire=pDir()):
     """
     Lists file in a directory in an ordered way
     """
-    num, cou = [], 1
-    for file in os.listdir(dire):
-        num.append(cou)
-        cou += 1
     files = []
-    for n in num:
-        filename = str(n) + ext
-        files.append(filename)
+    for file in os.listdir(dire):
+        files.append(file)
+    files.sort()
     return files
-
-def getFname(dire):
-    """
-    Finds out the filename which was split from the directory name
-    """
-    basename = os.path.basename(dire)
-    baseArr = basename.split('.')
-    fName = '.'.join(baseArr[:-1])
-    return fName
 
 def join(dire=pDir()):
     """
     Joins all the .split files together systematically
     """
-    if not dirExists(dire):
-        raise OSError('directory %s does not exist' %(dire))
-    filename = getFname(dire)
-    path = getpath(dire, '../' + filename)
-    dire = getpath(dire)
-    outputf = open(path, 'w')
-    for part in olistdir(dire):
-        partpath = getpath(dire, part)
-        with open(partpath) as inputf:
-            fwrite(inputf, outputf)
-    outputf.close()
+    pass
