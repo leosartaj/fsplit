@@ -1,0 +1,12 @@
+# language and version
+language: python
+python:
+  "2.7"
+
+branches:
+  only:
+    - master
+
+# testing program
+script:
+  py.test
