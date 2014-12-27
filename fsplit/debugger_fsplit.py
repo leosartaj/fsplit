@@ -42,5 +42,5 @@ if __name__ == '__main__':
         if istar:
             path = osw.getpath(dest, target + '.fsplit')
             tar.createTarAll(path)
-    except OSError, e:
+    except Exception, e:
         print e
