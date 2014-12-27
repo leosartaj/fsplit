@@ -24,7 +24,7 @@ if __name__ == '__main__':
         print 'file \'%s\' does not exist.' %(target)
         sys.exit()
     elif not os.path.isfile(target):
-        print 'target should be a file'
+        print 'target \'%s\' should be a file' %(target)
         sys.exit()
 
     dest = args.dest
@@ -32,9 +32,9 @@ if __name__ == '__main__':
         print 'directory \'%s\' does not exist.' %(dest)
         sys.exit()
     elif not os.path.isdir(dest):
-        print 'ouptut destination should be a directory'
+            print 'ouptut destination \'%s\' should be a directory' %(dest)
         sys.exit()
 
     parts = args.num
 
-    main.split(target, num=parts, dire=dest) # now split it
+    main.split(target, num=parts, dest=dest) # now split it

@@ -1,9 +1,7 @@
 #!/usr/bin/env python2
 
 ##
-# fsplit
-# https://github.com/leosartaj/fsplit.git
-#
+# fsplit # https://github.com/leosartaj/fsplit.git #
 # Copyright (c) 2014 Sartaj Singh
 # Licensed under the MIT license.
 ##
@@ -14,7 +12,7 @@ Main module
 
 import oswrapper as osw
 
-def split(fName, num=2, dire=None):
+def split(fName, num=2, dest=None):
     """
     Splits a file to various numbers
     """
@@ -22,10 +20,10 @@ def split(fName, num=2, dire=None):
         raise OSError('file %s does not exists' %(fName))
     base = osw.basename(fName)
 
-    if not dire:
-        dire = osw.dirname(fName)
+    if not dest:
+        dest = osw.dirname(fName)
     dirname = base + '.fsplit'
-    location = osw.cdir(dirname, dire)
+    location = osw.cdir(dirname, dest)
 
     size = osw.getsize(fName)
     chunk_size = size / num
@@ -44,7 +42,7 @@ def split(fName, num=2, dire=None):
 
     inputf.close()
 
-def join(dire=osw.pDir()):
+def join(dire=osw.pDir(), dest=''):
     """
     Joins all the .split files together systematically
     """
@@ -53,9 +51,11 @@ def join(dire=osw.pDir()):
     filename = osw.getFname(dire)
     if not filename:
         raise OSError("Not valid fsplit directory %s" %(dire))
-    path = osw.getpath(dire, '../' + filename)
+    if not dest:
+        dest = osw.getpath(dire, '../')
+    dest = osw.getpath(dest, filename)
+    outputf = open(dest, 'w')
     dire = osw.getpath(dire)
-    outputf = open(path, 'w')
     for part in osw.olistdir(dire):
         partpath = osw.getpath(dire, part)
         with open(partpath) as inputf:
