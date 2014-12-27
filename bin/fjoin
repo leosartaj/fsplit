@@ -9,14 +9,13 @@
 ##
 
 """
-Join files split by fsplit
+Join files that were split using fsplit
 """
 
 import os, sys
 from fsplit.parse import opfjoin
-from fsplit import main
-from fsplit import tar
-from fsplit import exce
+from fsplit import main, tar, exce
+from fsplit import oswrapper as osw
 
 if __name__ == '__main__':
     args = opfjoin.parse_args()
@@ -38,8 +37,29 @@ if __name__ == '__main__':
             print 'ouptut destination \'%s\' should be a directory' %(dest)
             sys.exit()
 
+    verbose = args.verbose
+    if target.endswith('/'):
+        target = target[:-1]
+    base = osw.basename(target)
+    path = osw.getpath(dest, base[:-7])
     try:
-        tar.extractTarAll(target)
+        if verbose:
+            print 'Joining \'%s\' into \'%s\'' %(target, path)
+            print 'Looking for tarfiles'
+        status = tar.extractTarAll(target)
+        if verbose:
+            if status:
+                print 'Tarfiles extracted'
+            else:
+                print 'No tarfile found'
+            print 'Starting join'
         main.join(target, dest)
+        if verbose:
+            print 'Joined into \'%s\'' %(path)
+            print 'Joining Complete'
     except Exception, e:
         print e
+        if os.path.isfile(path):
+            os.remove(path)
+    finally:
+        print 'Exiting Now'

@@ -66,10 +66,13 @@ def extractTarAll(dire=osw.pDir(), dest=None):
     Extracts all tarfiles to the destination
     removes the tarfiles
     """
+    status = False
     if not osw.dirExists(dire):
         raise OSError('directory \'%s\' does not exist' %(dire))
     for file in os.listdir(dire):
         path = osw.getpath(dire, file)
         if isTar(path):
+            status = True
             extractTar(path, dest)
             os.remove(path)
+    return status

@@ -10,11 +10,10 @@
 For debugging fsplit
 """
 
-import os, sys
+import os, sys, shutil
 from parse import opfsplit
 import oswrapper as osw
-import tar
-import main
+import main, tar
 
 if __name__ == '__main__':
     args = opfsplit.parse_args()
@@ -36,11 +35,26 @@ if __name__ == '__main__':
         sys.exit()
 
     parts, istar = args.num, args.tar
+    verbose = args.verbose
 
+    base = osw.basename(target)
+    path = osw.getpath(dest, base + '.fsplit')
     try:
+        if verbose:
+            print 'Splitting \'%s\' into \'%d\' parts' %(target, parts)
         main.split(target, num=parts, dest=dest) # now split it
         if istar:
-            path = osw.getpath(dest, target + '.fsplit')
+            if verbose:
+                print 'Creating Tarfiles'
             tar.createTarAll(path)
+            if verbose:
+                print 'Tarfiles created'
+        if verbose:
+            print 'splits saved in \'%s\'' %(path)
+            print 'Splitting Complete'
     except Exception, e:
+        if os.path.isdir(path):
+            shutil.rmtree(path)
         print e
+    finally:
+        print 'Exiting Now'
