@@ -14,7 +14,7 @@ import oswrapper as osw
 
 def split(fName, num=2, dest=None):
     """
-    Splits a file to various numbers
+    Splits a file into parts
     """
     if not osw.fileExists(fName):
         raise OSError('file %s does not exists' %(fName))

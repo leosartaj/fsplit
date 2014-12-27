@@ -84,18 +84,6 @@ def rdir(dirname, dire=pDir()):
     shutil.rmtree(path)
     return path
 
-def fwrite(inputf, outputf, chunk_size=None):
-    """
-    Writes in a file
-    by reading from another file
-    """
-    if chunk_size:
-        chunk = inputf.read(chunk_size)
-    else:
-        chunk = inputf.read()
-    if chunk:
-        outputf.write(chunk)
-
 def olistdir(dire=pDir(), ext='.split'):
     """
     Lists file in a directory in an ordered way
@@ -109,6 +97,18 @@ def olistdir(dire=pDir(), ext='.split'):
         filename = str(n) + ext
         files.append(filename)
     return files
+
+def fwrite(inputf, outputf, chunk_size=None):
+    """
+    Writes in a file
+    by reading from another file
+    """
+    if chunk_size:
+        chunk = inputf.read(chunk_size)
+    else:
+        chunk = inputf.read()
+    if chunk:
+        outputf.write(chunk)
 
 def getFname(dire, suffix='fsplit'):
     """

@@ -23,7 +23,7 @@ class Testsplitjoin(unittest.TestCase):
         filename = os.path.join(self.dire, 'testData/test.py')
         self.assertTrue(os.path.isfile(filename))
         parts = 10
-        main.split(filename, num=parts, dire=self.dire)
+        main.split(filename, num=parts, dest=self.dire)
         dirname = os.path.join(self.dire, 'test.py.fsplit')
         self.assertTrue(os.path.isdir(dirname))
         num = 0
@@ -40,7 +40,7 @@ class Testsplitjoin(unittest.TestCase):
         filename = os.path.join(self.dire, 'testData/test.py')
         self.assertTrue(os.path.isfile(filename))
         parts = 10
-        main.split(filename, num=parts, dire=self.dire)
+        main.split(filename, num=parts, dest=self.dire)
         dirname = os.path.join(self.dire, 'test.py.fsplit')
         self.assertTrue(os.path.isdir(dirname))
         main.join(dirname)
