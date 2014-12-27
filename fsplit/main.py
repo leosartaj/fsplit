@@ -11,13 +11,14 @@ Main module
 """
 
 import oswrapper as osw
+import exce
 
 def split(fName, num=2, dest=None):
     """
     Splits a file into parts
     """
     if not osw.fileExists(fName):
-        raise OSError('file %s does not exists' %(fName))
+        raise OSError('file \'%s\' does not exists' %(fName))
     base = osw.basename(fName)
 
     if not dest:
@@ -47,10 +48,10 @@ def join(dire=osw.pDir(), dest=''):
     Joins all the .split files together systematically
     """
     if not osw.dirExists(dire):
-        raise OSError('directory %s does not exist' %(dire))
+        raise OSError('directory \'%s\' does not exist' %(dire))
     filename = osw.getFname(dire)
     if not filename:
-        raise OSError("Not valid fsplit directory %s" %(dire))
+        raise exce.InvalidDirError("Not a valid fsplit directory \'%s\'" %(dire))
     if not dest:
         dest = osw.getpath(dire, '../')
     dest = osw.getpath(dest, filename)

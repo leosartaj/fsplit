@@ -37,4 +37,7 @@ if __name__ == '__main__':
 
     parts = args.num
 
-    main.split(target, num=parts, dest=dest) # now split it
+    try:
+        main.split(target, num=parts, dest=dest) # now split it
+    except Exception, e:
+        print e

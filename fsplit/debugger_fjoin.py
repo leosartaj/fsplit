@@ -14,7 +14,7 @@ For debugging fjoin
 
 import os, sys
 from parse import opfjoin
-import main
+import main, exce
 
 if __name__ == '__main__':
     args = opfjoin.parse_args()
@@ -36,4 +36,7 @@ if __name__ == '__main__':
             print 'ouptut destination \'%s\' should be a directory' %(dest)
             sys.exit()
 
-    main.join(target, dest)
+    try:
+        main.join(target, dest)
+    except Exception, e:
+        print e
