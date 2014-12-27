@@ -32,4 +32,3 @@ class TestcreateTar(unittest.TestCase):
         filename = os.path.join(self.dire, 'try')
         self.assertFalse(os.path.isfile(filename))
         self.assertRaises(OSError, tar.createTar, filename)
-

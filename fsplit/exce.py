@@ -17,3 +17,9 @@ class InvalidDirError(Exception):
     Raised when directory not a valid fsplit directory
     """
     pass
+
+class NotTarError(Exception):
+    """
+    raised when file is not a valid tarfile
+    """
+    pass

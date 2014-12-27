@@ -14,6 +14,7 @@ Tar related functionality
 
 import tarfile
 import oswrapper as osw
+import exce
 
 def isTar(fName):
     """
@@ -33,3 +34,17 @@ def createTar(fName, dest=None):
     dest = osw.getpath(dest, basename + '.tar.gz')
     with tarfile.open(dest, 'w:gz') as tar:
         tar.add(fName, arcname=basename)
+
+def extractTar(tarname, dest=None):
+    """
+    Extracts a tarfile to the destination
+    """
+    basename, dirname = osw.basename(tarname), osw.dirname(tarname)
+    if not osw.fileExists(basename, dirname):
+        raise OSError('file \'%s\' does not exist' %(tarname))
+    if not isTar(tarname):
+        raise exce.NotTarError("Not a valid tarfile \'%s\'" %(tarname))
+    if not dest:
+        dest = osw.getpath(dirname, '')
+    with tarfile.open(tarname, 'r|gz') as tar:
+        tar.extractall(dest)
