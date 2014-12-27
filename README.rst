@@ -38,11 +38,11 @@ Joining files split using fsplit
 --------------------------------
 fsplit provides a utility, **fjoin** for joining files split using fsplit::
 
-    fsplit target [options]
+    fjoin target [options]
 
 Run the following command, for various options::
 
-    fsplit --help 
+    fjoin --help 
 
 Bugs
 ====
