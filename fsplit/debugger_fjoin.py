@@ -14,7 +14,9 @@ For debugging fjoin
 
 import os, sys
 from parse import opfjoin
-import main, exce
+import main
+import tar
+import exce
 
 if __name__ == '__main__':
     args = opfjoin.parse_args()
@@ -37,6 +39,7 @@ if __name__ == '__main__':
             sys.exit()
 
     try:
+        tar.extractTarAll(target)
         main.join(target, dest)
     except Exception, e:
         print e

@@ -10,7 +10,9 @@
 Main module
 """
 
+import os
 import oswrapper as osw
+import tar
 import exce
 
 def split(fName, num=2, dest=None):
@@ -34,13 +36,11 @@ def split(fName, num=2, dest=None):
         path = osw.getpath(location, filename)
         with open(path, 'w') as outputf:
             osw.fwrite(inputf, outputf, chunk_size)
-
     filename = str(num) + '.split'
     path = osw.getpath(location, filename)
     with open(path, 'a') as outputf:
         left = size - (chunk_size * num)
         osw.fwrite(inputf, outputf, left)
-
     inputf.close()
 
 def join(dire=osw.pDir(), dest=''):

@@ -28,6 +28,9 @@ def parse_args():
     help = "Number of splits. Defaults to 2."
     parser.add_argument('--num', '-n', type=int, help=help, default=2)
 
+    help = "Use for creating tar of each split. Defaults to False"
+    parser.add_argument('--tar', '-t', action='store_true', help=help)
+
     args = parser.parse_args()
 
     return args

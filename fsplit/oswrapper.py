@@ -56,11 +56,11 @@ def fileExists(fName, dire=pDir()):
         return True
     return False
 
-def dirExists(dirname, dire=pDir()):
+def dirExists(dirname):
     """
     Check if a directory exists
     """
-    if os.path.isdir(getpath(dire, dirname)):
+    if os.path.isdir(getpath(dirname)):
         return True
     return False
 
@@ -68,9 +68,9 @@ def cdir(dirname, dire=pDir()):
     """
     Create a new directory
     """
-    if dirExists(dirname, dire):
-        raise OSError('Directory/file already exists')
     path = getpath(dire, dirname)
+    if dirExists(path):
+        raise OSError('Directory/file already exists')
     os.mkdir(path)
     return path
 
@@ -78,20 +78,22 @@ def rdir(dirname, dire=pDir()):
     """
     Removes a directory
     """
-    if not dirExists(dirname, dire):
-        raise OSError('Directory/file does not exists')
     path = getpath(dire, dirname)
+    if not dirExists(path):
+        raise OSError('Directory/file does not exists')
     shutil.rmtree(path)
     return path
 
 def olistdir(dire=pDir(), ext='.split'):
     """
     Lists file in a directory in an ordered way
+    only files ending with the ext are returned
     """
     num, cou = [], 1
     for file in os.listdir(dire):
-        num.append(cou)
-        cou += 1
+        if file.endswith(ext):
+            num.append(cou)
+            cou += 1
     files = []
     for n in num:
         filename = str(n) + ext

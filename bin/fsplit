@@ -15,6 +15,8 @@ Split file into chunks
 import os, sys
 from fsplit.parse import opfsplit
 from fsplit import main
+from fsplit import oswrapper as osw
+from fsplit import tar
 
 if __name__ == '__main__':
     args = opfsplit.parse_args()
@@ -35,9 +37,12 @@ if __name__ == '__main__':
         print 'ouptut destination \'%s\' should be a directory' %(dest)
         sys.exit()
 
-    parts = args.num
+    parts, istar = args.num, args.tar
 
     try:
         main.split(target, num=parts, dest=dest) # now split it
-    except Exception, e:
+        if istar:
+            path = osw.getpath(dest, target + '.fsplit')
+            tar.createTarAll(path)
+    except OSError, e:
         print e

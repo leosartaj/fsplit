@@ -12,7 +12,7 @@
 Tar related functionality
 """
 
-import tarfile
+import tarfile, os
 import oswrapper as osw
 import exce
 
@@ -35,6 +35,18 @@ def createTar(fName, dest=None):
     with tarfile.open(dest, 'w:gz') as tar:
         tar.add(fName, arcname=basename)
 
+def createTarAll(dire=osw.pDir(), dest=None):
+    """
+    Creates tar of all the files in a directory
+    removes the files
+    """
+    if not osw.dirExists(dire):
+        raise OSError('directory \'%s\' does not exist' %(dire))
+    for file in os.listdir(dire):
+        path = osw.getpath(dire, file)
+        createTar(path, dest)
+        os.remove(path)
+
 def extractTar(tarname, dest=None):
     """
     Extracts a tarfile to the destination
@@ -48,3 +60,16 @@ def extractTar(tarname, dest=None):
         dest = osw.getpath(dirname, '')
     with tarfile.open(tarname, 'r|gz') as tar:
         tar.extractall(dest)
+
+def extractTarAll(dire=osw.pDir(), dest=None):
+    """
+    Extracts all tarfiles to the destination
+    removes the tarfiles
+    """
+    if not osw.dirExists(dire):
+        raise OSError('directory \'%s\' does not exist' %(dire))
+    for file in os.listdir(dire):
+        path = osw.getpath(dire, file)
+        if isTar(path):
+            extractTar(path, dest)
+            os.remove(path)

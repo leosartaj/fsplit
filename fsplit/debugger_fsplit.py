@@ -1,6 +1,4 @@
 #!/usr/bin/env python2
-
-##
 # fsplit
 # https://github.com/leosartaj/fsplit.git
 #
@@ -14,6 +12,8 @@ For debugging fsplit
 
 import os, sys
 from parse import opfsplit
+import oswrapper as osw
+import tar
 import main
 
 if __name__ == '__main__':
@@ -35,9 +35,12 @@ if __name__ == '__main__':
         print 'ouptut destination \'%s\' should be a directory' %(dest)
         sys.exit()
 
-    parts = args.num
+    parts, istar = args.num, args.tar
 
     try:
         main.split(target, num=parts, dest=dest) # now split it
-    except Exception, e:
+        if istar:
+            path = osw.getpath(dest, target + '.fsplit')
+            tar.createTarAll(path)
+    except OSError, e:
         print e
