@@ -9,12 +9,12 @@
 ##
 
 """
-For debugging fsplit
+Split file into chunks
 """
 
 import os, sys
-from parse import opfsplit
-import main
+from fsplit.parse import opfsplit
+from fsplit import main
 
 if __name__ == '__main__':
     args = opfsplit.parse_args()
